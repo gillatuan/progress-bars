@@ -13,7 +13,7 @@ import Utils from "../utils/Utils"
 
 import { BorderLinearProgress, useStyles } from "./styles"
 
-class CustomizedProgressBars extends Component {
+class ProgressBars extends Component {
   constructor(props) {
     super(props)
 
@@ -69,7 +69,6 @@ class CustomizedProgressBars extends Component {
   render() {
     const { classes } = this.props
     const { data, selectedOption } = this.state
-    console.log("data", data)
 
     return (
       <FrontendLayout>
@@ -84,7 +83,7 @@ class CustomizedProgressBars extends Component {
         {renderProgressOptions(data.bars, classes, selectedOption, this.handleChange)}
 
         {/* render group button */}
-        <div className={classes.ContainedButtons}>{renderButtons(data.buttons, classes, this.onClick)}</div>
+        {renderButtons(data.buttons, classes, this.onClick)}
       </FrontendLayout>
     )
   }
@@ -116,13 +115,17 @@ const renderBars = (bars, classes, limitation) => {
 }
 
 const renderButtons = (buttons, classes, onClick) => {
-  return buttons.map((v, k) => {
-    return (
-      <Button key={k} className={classes.btn} variant="contained" onClick={onClick}>
-        {v}
-      </Button>
-    )
-  })
+  return (
+    <div className={classes.ContainedButtons}>
+      {buttons.map((v, k) => {
+        return (
+          <Button key={k} className={classes.btn} variant="contained" onClick={onClick}>
+            {v}
+          </Button>
+        )
+      })}
+    </div>
+  )
 }
 
 const renderProgressOptions = (bars, classes, selectedOption, handleChange) => {
@@ -142,4 +145,4 @@ const renderProgressOptions = (bars, classes, selectedOption, handleChange) => {
   )
 }
 
-export default withStyles(useStyles)(CustomizedProgressBars)
+export default withStyles(useStyles)(ProgressBars)

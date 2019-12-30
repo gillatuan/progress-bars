@@ -8,10 +8,13 @@
     "@testing-library/react": "^9.4.0",
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.3.0"
+    "react-scripts": "3.3.0",
+    "react-test-renderer": "^16.12.0"
   },
   "scripts": {
     "build-css": "node-sass-chokidar src/scss -o src/css",
@@ -23,7 +26,7 @@
     "prod-build": "npm run build-css && node -r dotenv/config ./node_modules/.bin/react-app-rewired build dotenv_config_path=env/.env.prod",
     "stg-build": "npm run build-css && node -r dotenv/config ./node_modules/.bin/react-app-rewired build dotenv_config_path=env/.env.stg",
     "dev-build": "npm run build-css && node -r dotenv/config ./node_modules/.bin/react-app-rewired build dotenv_config_path=env/.env.dev",
-    "test": "node -r dotenv/config ./node_modules/.bin/react-app-rewired test --env=jsdom --setupTestFrameworkScriptFile=raf/polyfill dotenv_config_path=env/.env.test"
+    "test": "react-scripts test"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -41,7 +44,9 @@
     ]
   },
   "devDependencies": {
+    "chai": "^4.2.0",
     "dotenv": "^8.2.0",
+    "mocha": "^6.2.2",
     "node-sass-chokidar": "^1.4.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^1.19.1",
