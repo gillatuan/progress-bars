@@ -1,7 +1,7 @@
-const normalise = (value, limitation) => value * 100 / limitation
+const normalise = (value, limitation) => (value * 100) / limitation
 
 const Utils = {
-    normalise
+  normalise
 }
 
 export default Utils

@@ -22,28 +22,33 @@ class ProgressBars extends Component {
       data: {
         bars: [],
         buttons: [],
-        limit: 0,
+        limit: 0
       },
       selectedOption: 0,
+      errMsg: ""
     }
   }
 
   componentDidMount = async () => {
     this.setState({
-      loading: true,
+      loading: true
     })
 
     // fetch bars api
-    let data = await BarAPIClient.getBarsApi()
-    if (data) {
+    const data = await BarAPIClient.getBarsApi()
+    if (typeof data !== "string") {
       this.setState({
         data,
-        loading: false,
+        loading: false
+      })
+    } else {
+      this.setState({
+        errMsg: data
       })
     }
   }
 
-  onClick = e => {
+  onClick = (e) => {
     const { data, selectedOption } = this.state
 
     // set additional value of button
@@ -56,19 +61,19 @@ class ProgressBars extends Component {
 
     // reset bars data with new selected bar value
     this.setState({
-      data,
+      data
     })
   }
 
-  handleChange = e => {
+  handleChange = (e) => {
     this.setState({
-      selectedOption: e.target.value,
+      selectedOption: e.target.value
     })
   }
 
   render() {
     const { classes } = this.props
-    const { data, selectedOption } = this.state
+    const { errMsg, data, selectedOption } = this.state
 
     return (
       <FrontendLayout>
@@ -76,11 +81,20 @@ class ProgressBars extends Component {
           Progress Bars Demo
         </Typography>
 
+        <Typography component="div" gutterBottom variant="h2">
+          {errMsg}
+        </Typography>
+
         {/* render progress bars */}
         {renderBars(data.bars, classes, data.limit)}
 
         {/* render progress options */}
-        {renderProgressOptions(data.bars, classes, selectedOption, this.handleChange)}
+        {renderProgressOptions(
+          data.bars,
+          classes,
+          selectedOption,
+          this.handleChange
+        )}
 
         {/* render group button */}
         {renderButtons(data.buttons, classes, this.onClick)}
@@ -106,7 +120,12 @@ const renderBars = (bars, classes, limitation) => {
           color={colorProgressBar}
           value={Utils.normalise(setLimitationValue, limitation)}
         />
-        <Typography className={classes.progressValue} component="div" gutterBottom variant="body1">
+        <Typography
+          className={classes.progressValue}
+          component="div"
+          gutterBottom
+          variant="body1"
+        >
           {v}
         </Typography>
       </div>
@@ -119,7 +138,12 @@ const renderButtons = (buttons, classes, onClick) => {
     <div className={classes.ContainedButtons}>
       {buttons.map((v, k) => {
         return (
-          <Button key={k} className={classes.btn} variant="contained" onClick={onClick}>
+          <Button
+            key={k}
+            className={classes.btn}
+            variant="contained"
+            onClick={onClick}
+          >
             {v}
           </Button>
         )
@@ -131,8 +155,15 @@ const renderButtons = (buttons, classes, onClick) => {
 const renderProgressOptions = (bars, classes, selectedOption, handleChange) => {
   return (
     <FormControl className={classes.formControl}>
-      <InputLabel id="demo-simple-select-label">#progress{selectedOption + 1}</InputLabel>
-      <Select labelId="demo-simple-select-label" id="demo-simple-select" value={selectedOption} onChange={handleChange}>
+      <InputLabel id="demo-simple-select-label">
+        #progress{selectedOption + 1}
+      </InputLabel>
+      <Select
+        labelId="demo-simple-select-label"
+        id="demo-simple-select"
+        value={selectedOption}
+        onChange={handleChange}
+      >
         {bars.map((v, k) => {
           return (
             <MenuItem key={k} value={k}>
